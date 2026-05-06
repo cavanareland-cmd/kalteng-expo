@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Kalteng Expo 2026" },
+      { name: "description", content: "Kalteng Expo adalah ajang tahunan berskala nasional yang mempertemukan UMKM, startup, pemerintah, dan masyarakat Kalimantan Tengah." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Kalteng Expo 2026" },
+      { property: "og:description", content: "Kalteng Expo adalah ajang tahunan berskala nasional yang mempertemukan UMKM, startup, pemerintah, dan masyarakat Kalimantan Tengah." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Kalteng Expo 2026" },
+      { name: "twitter:description", content: "Kalteng Expo adalah ajang tahunan berskala nasional yang mempertemukan UMKM, startup, pemerintah, dan masyarakat Kalimantan Tengah." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0bd95c21-d834-403b-b391-0872d1228d9f/id-preview-58b5ce50--95e794dc-549e-42dd-a21d-671d49479a6d.lovable.app-1778087683322.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0bd95c21-d834-403b-b391-0872d1228d9f/id-preview-58b5ce50--95e794dc-549e-42dd-a21d-671d49479a6d.lovable.app-1778087683322.png" },
     ],
     links: [
       {
