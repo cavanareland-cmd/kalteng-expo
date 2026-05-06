@@ -9,6 +9,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
         <div className="lg:col-span-2">
           <img src={logo} alt="Kalteng Expo" className="h-14 w-auto" />
+          <p className="mt-4 text-sm italic text-brand-yellow">“Menguatkan Lokal, Menjangkau Global”</p>
           <p className="mt-5 text-sm font-semibold text-white">Kantor Sekretariat</p>
           <p className="mt-2 text-xs text-white/70 leading-relaxed flex items-start gap-2">
             <MapPin className="h-4 w-4 text-brand-orange flex-shrink-0 mt-0.5" />
@@ -18,7 +19,8 @@ export function SiteFooter() {
             <Phone className="h-4 w-4 text-brand-orange" /> +62 813 6786 6677 (Rika/Putri)
           </p>
           <p className="mt-2 text-xs text-white/70 flex items-center gap-2">
-            <Mail className="h-4 w-4 text-brand-orange" /> info@kaltengexpo.com
+            <Mail className="h-4 w-4 text-brand-orange" />
+            <span>info@kaltengexpo.com</span>
           </p>
         </div>
         <div>

@@ -42,7 +42,10 @@ function Hero() {
           <h1 className="mt-5 text-6xl sm:text-7xl lg:text-8xl leading-[0.85] font-display">
             KAL<br/>TENG<br/>EXPO<br/><span className="text-brand-yellow">2026</span>
           </h1>
-          <p className="mt-6 max-w-md text-white/80 text-base sm:text-lg">
+          <p className="mt-6 max-w-md text-brand-yellow text-lg sm:text-xl font-semibold italic">
+            “Menguatkan Lokal, Menjangkau Global”
+          </p>
+          <p className="mt-3 max-w-md text-white/80 text-base sm:text-lg">
             Exhibition · Discussion · Workshop · B2B & Business Matching · Cultural Performance · Entertainment.
           </p>
           <p className="mt-4 inline-flex items-center gap-2 text-white/70 text-sm">
