@@ -35,12 +35,14 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="flex items-center gap-2">
-          <Link
-            to="/kontak"
+          <a
+            href="https://wa.me/6281367866677"
+            target="_blank"
+            rel="noopener noreferrer"
             className="hidden sm:inline-flex items-center gap-2 rounded-full bg-brand-orange hover:brightness-110 text-foreground px-4 py-2 text-sm font-semibold transition-colors"
           >
             Daftar Sekarang
-          </Link>
+          </a>
           <button
             onClick={() => setOpen(!open)}
             className="lg:hidden text-white p-2"
