@@ -19,7 +19,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 bg-brand-green-deep/95 backdrop-blur border-b border-white/5">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="Kalteng Expo 2026" className="h-9 w-auto" style={{ filter: "invert(1)" }} />
+          <img src={logo} alt="Kalteng Expo 2026" className="h-10 w-auto" />
         </Link>
         <nav className="hidden lg:flex items-center gap-6 text-sm text-white/80">
           {NAV.map((n) => (
