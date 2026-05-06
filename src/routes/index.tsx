@@ -247,9 +247,9 @@ function CTA() {
             <Link to="/sponsorship" className="inline-flex items-center gap-2 rounded-full bg-brand-orange hover:brightness-110 text-foreground px-6 py-3 font-semibold transition">
               Daftar Booth <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link to="/kontak" className="inline-flex items-center gap-2 rounded-full border border-white/40 hover:bg-white/10 px-6 py-3 font-semibold transition">
-              Hubungi Kami
-            </Link>
+            <a href="https://wa.me/6281367866677" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-white/40 hover:bg-white/10 px-6 py-3 font-semibold transition">
+              Hubungi via WhatsApp
+            </a>
           </div>
         </div>
       </div>
