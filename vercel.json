@@ -1,0 +1,6 @@
+{
+  "buildCommand": "vite build --config vite.vercel.config.ts",
+  "outputDirectory": ".output/public",
+  "framework": null,
+  "installCommand": "npm install --legacy-peer-deps"
+}
