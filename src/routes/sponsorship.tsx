@@ -174,7 +174,7 @@ function SponsorshipPage() {
               <p className="mt-3 text-white/80 text-sm">Hubungi Official Contractor kami: <span className="font-semibold text-white">AKS Solution</span> — Alan: +62 821-5704-9226</p>
             </div>
             <div className="flex flex-wrap gap-3 md:justify-end">
-              <a href="https://wa.me/6282157049226" className="inline-flex items-center gap-2 rounded-full bg-brand-orange hover:brightness-110 text-foreground px-6 py-3 font-semibold transition">
+              <a href="https://wa.me/6281367866677" className="inline-flex items-center gap-2 rounded-full bg-brand-orange hover:brightness-110 text-foreground px-6 py-3 font-semibold transition">
                 <Phone className="h-4 w-4" /> Hubungi AKS Solution
               </a>
               <Link to="/kontak" className="inline-flex items-center gap-2 rounded-full border border-white/30 hover:bg-white/10 px-6 py-3 font-semibold transition">
