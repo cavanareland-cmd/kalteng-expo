@@ -1,52 +1,62 @@
-# Deploy ke Vercel
+# Deploy ke Vercel via GitHub
 
-Project ini dikonfigurasi untuk Cloudflare Workers di environment Lovable. File berikut sudah disiapkan agar deploy ke Vercel tetap bisa jalan **tanpa mengubah preview Lovable**:
+Project ini siap deploy ke Vercel sebagai **SPA (Single Page Application)** static hosting. Konfigurasi Cloudflare untuk preview Lovable tetap dipertahankan.
 
-- `vercel.json` — Vercel build settings
-- `vite.vercel.config.ts` — Vite config khusus Vercel (tanpa plugin Cloudflare)
+## File Konfigurasi
+
+- `vercel.json` — install/build command + SPA rewrites
+- `vite.vercel.config.ts` — Vite config khusus Vercel (mode SPA, prerender index.html)
+- `package.json` script: `npm run build:vercel`
+
+Output build: `dist/client/` (static, sudah berisi `index.html`).
 
 ## Langkah Deploy
 
 ### 1. Push ke GitHub
-- Buka **Connectors → GitHub → Connect** di Lovable
-- Transfer/sync project ke repo GitHub Anda
+- Lovable → menu **+** (kiri bawah chat) → **GitHub** → **Connect project**
+- Otorisasi GitHub App → pilih akun/organisasi → **Create Repository**
+- Sync otomatis bidirectional (push GitHub ↔ Lovable)
 
 ### 2. Import ke Vercel
 - Buka https://vercel.com/new
 - Pilih repo dari GitHub
 - **Framework Preset**: pilih **Other** (jangan auto-detect)
-- Build & install command sudah di-handle `vercel.json`
+- Build settings sudah dibaca otomatis dari `vercel.json`:
+  ```
+  Install:  npm install --legacy-peer-deps
+  Build:    npm run build:vercel
+  Output:   dist/client
+  ```
 
-### 3. Environment Variables (Vercel → Project Settings → Environment Variables)
-Tambahkan 3 variabel berikut. Nilainya bisa Anda copy dari file `.env` (lihat di Code Editor Lovable):
+### 3. Environment Variables
+Vercel → Project Settings → **Environment Variables**. Set untuk **Production**, **Preview**, **Development**:
 
-| Name | Value |
-|------|-------|
-| `VITE_SUPABASE_URL` | (dari `.env`) |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | (dari `.env`) |
-| `VITE_SUPABASE_PROJECT_ID` | (dari `.env`) |
+| Name | Value (copy dari `.env`) |
+|------|--------------------------|
+| `VITE_SUPABASE_URL` | `https://yhvmnletmvvdzrezznnc.supabase.co` |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | (lihat `.env`) |
+| `VITE_SUPABASE_PROJECT_ID` | `yhvmnletmvvdzrezznnc` |
 
-Set untuk **Production**, **Preview**, dan **Development**.
+> Database backend (Lovable Cloud / Supabase) **tetap di-host di Lovable Cloud**. Vercel hanya hosting frontend. Auth, data, dan storage tetap berjalan via Supabase URL di atas. Tidak ada migrasi DB yang perlu dilakukan.
 
 ### 4. Deploy
-Klik **Deploy**. Vercel akan menjalankan:
-```
-npm install --legacy-peer-deps
-vite build --config vite.vercel.config.ts
-```
-Output di `.output/public` akan otomatis di-serve oleh Vercel.
+Klik **Deploy**. Setelah sukses, Vercel akan memberi URL `*.vercel.app`.
 
 ### 5. Custom Domain
-Setelah deploy sukses:
-- Project → **Settings → Domains → Add**
-- Masukkan domain Anda
-- Ikuti instruksi DNS Vercel:
-  - **Apex (`yourdomain.com`)**: A record → `76.76.21.21`
-  - **www**: CNAME → `cname.vercel-dns.com`
-- SSL otomatis aktif setelah propagasi.
+Settings → **Domains** → Add domain. Ikuti DNS instruction:
+- **Apex** (`yourdomain.com`): A record → `76.76.21.21`
+- **www**: CNAME → `cname.vercel-dns.com`
+
+SSL otomatis aktif setelah propagasi DNS.
+
+## Sinkronisasi Data Backend
+
+- Supabase project sama dengan yang di Lovable preview → data konsisten antara preview Lovable, deployment Lovable, dan deployment Vercel.
+- Auth (login/signup), RLS, storage semua langsung jalan tanpa konfigurasi tambahan.
+- Jika nanti menambah tabel/edge function di Lovable Cloud, otomatis tersedia juga di Vercel deployment (selama env var di atas benar).
 
 ## Catatan
 
-- File `wrangler.jsonc`, `src/server.ts`, dan `vite.config.ts` (Cloudflare) **tetap dibiarkan** karena dipakai Lovable preview. Vercel mengabaikan file-file itu karena `vercel.json` menunjuk config sendiri.
-- Jika build Vercel gagal karena dependency, jalankan lokal dulu: `npm install --legacy-peer-deps && vite build --config vite.vercel.config.ts` untuk verifikasi.
-- Untuk Iframe embed di WordPress/Elementor, gunakan URL Vercel atau custom domain Anda.
+- File Cloudflare (`wrangler.jsonc`, `src/server.ts`, `vite.config.ts`) tetap dibiarkan untuk preview Lovable. Vercel tidak menyentuhnya karena pakai config terpisah.
+- Mode SPA dipakai di Vercel agar tidak butuh runtime SSR Worker — semua route TanStack Router berjalan client-side dengan rewrite ke `index.html`.
+- Jika perlu test build lokal: `npm install --legacy-peer-deps && npm run build:vercel`, lalu `npx serve dist/client`.

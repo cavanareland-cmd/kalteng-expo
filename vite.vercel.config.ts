@@ -5,26 +5,30 @@ import tailwindcss from "@tailwindcss/vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 import path from "node:path";
 
+// SPA build for Vercel static hosting (no SSR runtime needed).
+// TanStack Start's `spa` mode pre-renders an index.html shell that hydrates on the client.
 export default defineConfig({
   resolve: {
-    alias: { 
-      "@": path.resolve(__dirname, "./src") 
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
     },
     dedupe: [
-      "react", 
-      "react-dom", 
-      "@tanstack/react-router", 
-      "@tanstack/react-start"
+      "react",
+      "react-dom",
+      "@tanstack/react-router",
+      "@tanstack/react-start",
     ],
   },
   plugins: [
-    tsConfigPaths({ 
-      projects: ["./tsconfig.json"] 
-    }),
+    tsConfigPaths({ projects: ["./tsconfig.json"] }),
     tailwindcss(),
     tanstackStart({
-      server: {
-        preset: "vercel", // Memberitahu TanStack Start untuk menggunakan output format Vercel
+      spa: {
+        enabled: true,
+        prerender: {
+          enabled: true,
+          outputPath: "/index.html",
+        },
       },
     }),
     viteReact(),
