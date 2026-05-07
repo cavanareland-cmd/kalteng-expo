@@ -30,6 +30,16 @@ export const Route = createFileRoute("/")({
 });
 
 function Hero() {
+  const c = useCmsValue("home.hero", {
+    badge: "17–23 Mei 2026 · 12.00–22.00 WIB",
+    titleLines: ["KAL", "TENG", "EXPO"],
+    year: "2026",
+    tagline: "“Menguatkan Lokal, Menjangkau Global”",
+    subtitle: "Exhibition · Discussion · Workshop · B2B & Business Matching · Cultural Performance · Entertainment.",
+    location: "Halaman GOR Indoor, Palangka Raya",
+    ctaPrimary: { label: "Daftar Booth", href: "/sponsorship" },
+    ctaSecondary: { label: "Pelajari Lebih Lanjut", href: "/tentang" },
+  });
   return (
     <section className="relative overflow-hidden bg-brand-green-deep text-white">
       <div className="absolute inset-0 opacity-30 pointer-events-none"
@@ -38,33 +48,30 @@ function Hero() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-20 lg:pt-24 lg:pb-28 grid lg:grid-cols-2 gap-12 items-center">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-3 py-1 text-xs font-medium text-white/90">
-            <Calendar className="h-3.5 w-3.5" /> 17–23 Mei 2026 · 12.00–22.00 WIB
+            <Calendar className="h-3.5 w-3.5" /> {c.badge}
           </span>
           <h1 className="mt-5 text-6xl sm:text-7xl lg:text-8xl leading-[0.85] font-display">
-            KAL<br/>TENG<br/>EXPO<br/><span className="text-brand-yellow">2026</span>
+            {c.titleLines.map((l: string, i: number) => <span key={i}>{l}<br/></span>)}
+            <span className="text-brand-yellow">{c.year}</span>
           </h1>
-          <p className="mt-6 max-w-md text-brand-yellow text-lg sm:text-xl font-semibold italic">
-            “Menguatkan Lokal, Menjangkau Global”
-          </p>
-          <p className="mt-3 max-w-md text-white/80 text-base sm:text-lg">
-            Exhibition · Discussion · Workshop · B2B & Business Matching · Cultural Performance · Entertainment.
-          </p>
+          <p className="mt-6 max-w-md text-brand-yellow text-lg sm:text-xl font-semibold italic">{c.tagline}</p>
+          <p className="mt-3 max-w-md text-white/80 text-base sm:text-lg">{c.subtitle}</p>
           <p className="mt-4 inline-flex items-center gap-2 text-white/70 text-sm">
-            <MapPin className="h-4 w-4 text-brand-orange" /> Halaman GOR Indoor, Palangka Raya
+            <MapPin className="h-4 w-4 text-brand-orange" /> {c.location}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/sponsorship" className="inline-flex items-center gap-2 rounded-full bg-brand-orange hover:brightness-110 text-foreground px-6 py-3 font-semibold transition">
-              Daftar Booth <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link to="/tentang" className="inline-flex items-center gap-2 rounded-full border border-white/25 hover:bg-white/10 text-white px-6 py-3 font-semibold transition">
-              Pelajari Lebih Lanjut
-            </Link>
+            <a href={c.ctaPrimary.href} className="inline-flex items-center gap-2 rounded-full bg-brand-orange hover:brightness-110 text-foreground px-6 py-3 font-semibold transition">
+              {c.ctaPrimary.label} <ArrowRight className="h-4 w-4" />
+            </a>
+            <a href={c.ctaSecondary.href} className="inline-flex items-center gap-2 rounded-full border border-white/25 hover:bg-white/10 text-white px-6 py-3 font-semibold transition">
+              {c.ctaSecondary.label}
+            </a>
           </div>
         </div>
         <div className="relative">
           <div className="relative rounded-3xl bg-brand-cream p-6 sm:p-10 shadow-2xl">
             <span className="absolute top-5 right-5 inline-flex items-center gap-1.5 rounded-full bg-brand-orange text-foreground px-3 py-1 text-xs font-semibold">
-              <Calendar className="h-3 w-3" /> 17–23 Mei 2026
+              <Calendar className="h-3 w-3" /> {c.badge.split("·")[0].trim()}
             </span>
             <img src={logoEl} alt="Kalteng Expo 2026" className="w-full h-auto" />
           </div>
