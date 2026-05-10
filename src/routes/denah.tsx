@@ -42,11 +42,13 @@ const defaultHotspots: Hotspot[] = [
 const IMG_ASPECT = 605 / 862; // width / height
 
 function InteractiveMap({
-  src, alt, hotspots, onOpen,
-}: { src: string; alt: string; hotspots: Hotspot[]; onOpen: () => void }) {
+  src, alt, hotspots, onOpen, active, setActive,
+}: {
+  src: string; alt: string; hotspots: Hotspot[]; onOpen: () => void;
+  active: Hotspot | null; setActive: (h: Hotspot | null) => void;
+}) {
   const [scale, setScale] = useState(1);
   const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [active, setActive] = useState<Hotspot | null>(null);
   const dragRef = useRef<{ x: number; y: number; px: number; py: number; moved: boolean } | null>(null);
 
   const clampScale = (s: number) => Math.min(4, Math.max(1, s));
@@ -92,10 +94,10 @@ function InteractiveMap({
               onClick={(e) => {
                 e.stopPropagation();
                 if (dragRef.current?.moved) return;
-                setActive((a) => (a?.id === h.id ? null : h));
+                setActive(active?.id === h.id ? null : h);
               }}
               aria-label={h.name}
-              className="absolute -translate-x-1/2 -translate-y-1/2 group"
+              className={`absolute -translate-x-1/2 -translate-y-1/2 group ${active?.id === h.id ? "z-10 scale-125" : ""}`}
               style={{ left: `${h.x}%`, top: `${h.y}%` }}
             >
               <span className={`relative flex h-4 w-4 sm:h-5 sm:w-5 items-center justify-center`}>
@@ -173,6 +175,13 @@ function DenahPage() {
   const imageSrc = cms.image || denahImg;
   const hotspots = cms.hotspots?.length ? cms.hotspots : defaultHotspots;
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState<Hotspot | null>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
+
+  const focusZone = (h: Hotspot) => {
+    setActive(h);
+    mapRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <div className="min-h-screen">
@@ -180,17 +189,26 @@ function DenahPage() {
       <PageHero
         eyebrow="DENAH LOKASI"
         title="Layout & Zona Kalteng Expo 2026"
-        subtitle="Halaman GOR Indoor Palangka Raya — klik titik berdenyut pada denah untuk melihat detail tiap zona."
+        subtitle="Halaman GOR Indoor Palangka Raya — klik titik berdenyut pada denah atau kartu zona untuk melihat detail."
       />
 
       <section className="bg-background py-12 sm:py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <InteractiveMap src={imageSrc} alt="Denah Lokasi Kalteng Expo 2026" hotspots={hotspots} onOpen={() => setOpen(true)} />
+          <div ref={mapRef} className="scroll-mt-24">
+            <InteractiveMap
+              src={imageSrc}
+              alt="Denah Lokasi Kalteng Expo 2026"
+              hotspots={hotspots}
+              onOpen={() => setOpen(true)}
+              active={active}
+              setActive={setActive}
+            />
+          </div>
 
           <div className="mt-4 rounded-xl bg-brand-yellow/15 border border-brand-yellow/40 p-4 flex items-start gap-3">
             <Info className="h-4 w-4 text-brand-orange flex-shrink-0 mt-0.5" />
             <p className="text-xs text-foreground/80">
-              Klik titik berdenyut untuk detail zona. Gunakan zoom, scroll, atau pinch untuk memperbesar; tap layar penuh untuk melihat denah maksimal. Layout dapat berubah menyesuaikan kondisi lapangan.
+              Klik titik berdenyut atau kartu zona untuk detail. Gunakan zoom, scroll, atau pinch untuk memperbesar; tap layar penuh untuk melihat denah maksimal. Layout dapat berubah menyesuaikan kondisi lapangan.
             </p>
           </div>
 
@@ -202,15 +220,26 @@ function DenahPage() {
               <h2 className="text-2xl font-display">Daftar Zona & Fasilitas</h2>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {hotspots.map((z) => (
-                <div key={z.id} className="rounded-2xl bg-card border border-border p-5 hover:border-brand-teal/40 hover:shadow-md transition">
-                  <div className="flex items-center gap-2">
-                    <span className={`h-2.5 w-2.5 rounded-full ${z.color ?? "bg-brand-teal"}`} />
-                    <p className="font-display text-lg text-brand-teal">{z.name}</p>
-                  </div>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{z.desc}</p>
-                </div>
-              ))}
+              {hotspots.map((z) => {
+                const isActive = active?.id === z.id;
+                return (
+                  <button
+                    key={z.id}
+                    type="button"
+                    onClick={() => focusZone(z)}
+                    className={`text-left rounded-2xl bg-card border p-5 transition hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-teal/40 ${
+                      isActive ? "border-brand-teal ring-2 ring-brand-teal/30 shadow-md" : "border-border hover:border-brand-teal/40"
+                    }`}
+                    aria-pressed={isActive}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className={`h-2.5 w-2.5 rounded-full ${z.color ?? "bg-brand-teal"}`} />
+                      <p className="font-display text-lg text-brand-teal">{z.name}</p>
+                    </div>
+                    <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{z.desc}</p>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
