@@ -42,11 +42,13 @@ const defaultHotspots: Hotspot[] = [
 const IMG_ASPECT = 605 / 862; // width / height
 
 function InteractiveMap({
-  src, alt, hotspots, onOpen,
-}: { src: string; alt: string; hotspots: Hotspot[]; onOpen: () => void }) {
+  src, alt, hotspots, onOpen, active, setActive,
+}: {
+  src: string; alt: string; hotspots: Hotspot[]; onOpen: () => void;
+  active: Hotspot | null; setActive: (h: Hotspot | null) => void;
+}) {
   const [scale, setScale] = useState(1);
   const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [active, setActive] = useState<Hotspot | null>(null);
   const dragRef = useRef<{ x: number; y: number; px: number; py: number; moved: boolean } | null>(null);
 
   const clampScale = (s: number) => Math.min(4, Math.max(1, s));
