@@ -94,10 +94,10 @@ function InteractiveMap({
               onClick={(e) => {
                 e.stopPropagation();
                 if (dragRef.current?.moved) return;
-                setActive((a) => (a?.id === h.id ? null : h));
+                setActive(active?.id === h.id ? null : h);
               }}
               aria-label={h.name}
-              className="absolute -translate-x-1/2 -translate-y-1/2 group"
+              className={`absolute -translate-x-1/2 -translate-y-1/2 group ${active?.id === h.id ? "z-10 scale-125" : ""}`}
               style={{ left: `${h.x}%`, top: `${h.y}%` }}
             >
               <span className={`relative flex h-4 w-4 sm:h-5 sm:w-5 items-center justify-center`}>
